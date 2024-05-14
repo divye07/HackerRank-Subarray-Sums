@@ -1,0 +1,63 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'findSum' function below.
+#
+# The function is expected to return a LONG_INTEGER_ARRAY.
+# The function accepts following parameters:
+#  1. INTEGER_ARRAY numbers
+#  2. 2D_INTEGER_ARRAY queries
+#
+
+def findSum(numbers, queries):
+    # Initialize an array to store the results of each query
+    results = []
+    
+    # Iterate over each query
+    for l, r, x in queries:
+        # Adjust the indices since the array is 1-indexed
+        l -= 1
+        r -= 1
+        
+        # Calculate the sum of the subarray
+        subarray_sum = sum(numbers[l:r+1])
+        
+        # Count the number of zeros in the subarray and add x for each zero
+        subarray_sum += numbers[l:r+1].count(0) * x
+        
+        # Append the result to the results array
+        results.append(subarray_sum)
+    
+    return results
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    numbers_count = int(input().strip())
+
+    numbers = []
+
+    for _ in range(numbers_count):
+        numbers_item = int(input().strip())
+        numbers.append(numbers_item)
+
+    queries_rows = int(input().strip())
+    queries_columns = int(input().strip())
+
+    queries = []
+
+    for _ in range(queries_rows):
+        queries.append(list(map(int, input().rstrip().split())))
+
+    result = findSum(numbers, queries)
+
+    fptr.write('\n'.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
